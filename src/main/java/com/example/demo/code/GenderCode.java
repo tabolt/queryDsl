@@ -18,7 +18,6 @@ public enum GenderCode implements CommonCode {
 
     private final String groupCode = "M02";
     private final String groupName = "성별";
-
     private final String code;
     private final String name;
 
