@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -46,6 +47,13 @@ dependencies {
 
     // database
     implementation 'com.h2database:h2'
+
+    // log
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
+
+    // commons
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
 }
 
 test {

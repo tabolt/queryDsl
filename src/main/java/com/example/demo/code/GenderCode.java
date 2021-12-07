@@ -4,6 +4,7 @@ import com.example.demo.code.common.CommonCode;
 import com.example.demo.code.common.CommonCodeConverter;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Converter;
 
@@ -22,13 +23,19 @@ public enum GenderCode implements CommonCode {
     private final String name;
 
     GenderCode(String subCode, String name) {
-        this.code = this.groupCode + subCode;
+        this.code = groupCode + subCode;
         this.name = name;
     }
 
+    @Override
+    public Enum<? extends CommonCode>[] getValues() {
+        return values();
+    }
+
+    @Component
     @Converter(autoApply = true)
-    public static class CustomConverter extends CommonCodeConverter<GenderCode> {
-        CustomConverter() {
+    public static class CodeConverter extends CommonCodeConverter<GenderCode> {
+        CodeConverter() {
             super(GenderCode.class);
         }
     }

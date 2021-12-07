@@ -1,10 +1,13 @@
 package com.example.demo.code.common;
 
+import lombok.Getter;
+
 import javax.persistence.AttributeConverter;
 import java.util.EnumSet;
 import java.util.Optional;
 
-public class CommonCodeConverter<E extends Enum<E> & CommonCode> implements AttributeConverter<E, String> {
+@Getter
+public abstract class CommonCodeConverter<E extends Enum<E> & CommonCode> implements AttributeConverter<E, String> {
 
     private final Class<E> enumClass;
 

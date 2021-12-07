@@ -4,6 +4,7 @@ import com.example.demo.code.common.CommonCode;
 import com.example.demo.code.common.CommonCodeConverter;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Converter;
 
@@ -15,30 +16,26 @@ public enum StatusCode implements CommonCode {
     DORMANT("002", "휴면회원"),
     WITHDRAW("003", "탈퇴회원");
 
-    public static final String GROUP_CODE = "M01";
-    public static final String GROUP_NAME = "회원상태";
+    private final String groupCode = "M01";
+    private final String groupName = "회원상태";
 
     private final String code;
     private final String name;
 
     StatusCode(String subCode, String name) {
-        this.code = GROUP_CODE + subCode;
+        this.code = groupCode + subCode;
         this.name = name;
     }
 
     @Override
-    public String getGroupCode() {
-        return GROUP_CODE;
+    public Enum<? extends CommonCode>[] getValues() {
+        return values();
     }
 
-    @Override
-    public String getGroupName() {
-        return GROUP_NAME;
-    }
-
+    @Component
     @Converter(autoApply = true)
-    public static class CustomConverter extends CommonCodeConverter<StatusCode> {
-        CustomConverter() {
+    public static class CodeConverter extends CommonCodeConverter<StatusCode> {
+        CodeConverter() {
             super(StatusCode.class);
         }
     }
