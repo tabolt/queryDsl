@@ -26,23 +26,23 @@ public abstract class CommonCodeConverter<E extends Enum<E> & CommonCode> implem
     }
 
     @Override
-    public String convertToDatabaseColumn(E attribute) {
+    public String convertToDatabaseColumn(E param) {
 
-        if (!this.nullable && attribute == null) {
-            throw new IllegalArgumentException(String.format("%s 은/는 NULL 을 입력 할 수 없습니다.", this.enumClass.getSimpleName()));
+        if (!this.nullable && param == null) {
+            throw new IllegalArgumentException(String.format("%s 은/는 NULL 을 입력 할 수 없습니다.", param.getGroupName()));
         }
 
-        return Optional.ofNullable(attribute)
+        return Optional.ofNullable(param)
                 .map(item -> item.getCode())
                 .orElse(null);
     }
 
     @Override
-    public E convertToEntityAttribute(String dbData) {
+    public E convertToEntityAttribute(String param) {
 
         return EnumSet.allOf(enumClass)
                 .stream()
-                .filter(e -> e.getCode().equals(dbData))
+                .filter(e -> e.getCode().equals(param))
                 .findAny()
                 .orElse(null);
     }
