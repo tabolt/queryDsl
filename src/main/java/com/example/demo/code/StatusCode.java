@@ -15,7 +15,6 @@ public enum StatusCode implements CommonCode {
     DORMANT("M01002", "휴면회원"),
     WITHDRAW("M01003", "탈퇴회원");
 
-    private final String groupName = "회원상태";
     private final String code;
     private final String name;
 

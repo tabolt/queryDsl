@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public interface CommonCode {
 
-    String getGroupName();
-
     @JsonValue
     String getCode();
 

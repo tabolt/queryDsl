@@ -15,7 +15,6 @@ public enum GenderCode implements CommonCode {
     FEMALE("M02002", "여성"),
     ETC("M02003", "기타");
 
-    private final String groupName = "성별";
     private final String code;
     private final String name;
 

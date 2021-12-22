@@ -29,7 +29,7 @@ public abstract class CommonCodeConverter<E extends Enum<E> & CommonCode> implem
     public String convertToDatabaseColumn(E param) {
 
         if (!this.nullable && param == null) {
-            throw new IllegalArgumentException(String.format("%s 은/는 NULL 을 입력 할 수 없습니다.", param.getGroupName()));
+            throw new IllegalArgumentException(String.format("%s 은/는 NULL 을 입력 할 수 없습니다.", param.getClass().getSimpleName()));
         }
 
         return Optional.ofNullable(param)
