@@ -1,6 +1,5 @@
 package com.example.demo.support;
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
@@ -17,15 +16,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class PageableSupport {
-
-    /**
-     * 페이지 생성
-     */
-    @SuppressWarnings("deprecation")
-    public static <T> Page<T> getPage(JPAQuery<T> query, Pageable pageable) {
-        QueryResults<T> results = query.fetchResults();
-        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-    }
 
     /**
      * 페이지 변환

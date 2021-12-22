@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 import com.example.demo.code.GenderCode;
 import com.example.demo.code.StatusCode;
+import com.querydsl.core.types.Predicate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -8,13 +8,15 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.example.demo.support.PageableSupport.*;
+import static com.example.demo.support.PageableSupport.OrderBy;
+import static com.example.demo.support.PageableSupport.applyPageable;
 import static com.example.demo.support.QueryDslSupport.containsIf;
 import static com.example.demo.support.QueryDslSupport.eqIf;
 
@@ -29,7 +31,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
      */
     @Override
     public List<MemberEntity> selectMember(MemberCondition condition) {
-        return this.memberQuery(condition, null).fetch();
+        return this.basicQuery(condition, null).fetch();
     }
 
     /**
@@ -37,13 +39,36 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
      */
     @Override
     public Page<MemberEntity> selectMember(MemberCondition condition, Pageable pageable) {
-        return getPage(this.memberQuery(condition, pageable), pageable);
+        return new PageImpl<>(this.basicQuery(condition, pageable).fetch(), pageable, this.basicQueryCount(condition));
+    }
+
+    private long basicQueryCount(MemberCondition condition) {
+
+        QMemberEntity qMember = QMemberEntity.memberEntity;
+        QAddressEntity qAddress = QAddressEntity.addressEntity;
+
+        return jpaQuery
+                .select(
+                        qMember.no.count()
+                )
+                .from(
+                        qMember
+                )
+                .where(
+                        eqIf(qMember.no, condition.getNo()),
+                        eqIf(qMember.name, condition.getName()),
+                        containsIf(qMember.name, condition.getContainsName()),
+                        eqIf(qMember.gender, condition.getGender()),
+                        eqIf(qMember.age, condition.getAge()),
+                        eqIf(qMember.status, condition.getStatus())
+                )
+                .fetchOne();
     }
 
     /**
      * 기본 회원 쿼리
      */
-    private JPAQuery<MemberEntity> memberQuery(MemberCondition condition, @Nullable Pageable pageable) {
+    private JPAQuery<MemberEntity> basicQuery(MemberCondition condition, @Nullable Pageable pageable) {
 
         QMemberEntity qMember = QMemberEntity.memberEntity;
         QAddressEntity qAddress = QAddressEntity.addressEntity;
