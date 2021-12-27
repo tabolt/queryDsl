@@ -12,6 +12,10 @@ public class QueryDslSupport {
         return left.eq(right);
     }
 
+    public static <T> BooleanExpression eq(SimpleExpression<T> left, SimpleExpression<T> right) {
+        return left.eq(right);
+    }
+
     public static <T> BooleanExpression eqIf(SimpleExpression<T> left, T right) {
         if (right == null) return null;
         return left.eq(right);

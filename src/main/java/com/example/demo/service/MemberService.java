@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.MemberCondition;
-import com.example.demo.entity.MemberEntity;
+import com.example.demo.dto.MemberDto;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.support.PageableSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ public class MemberService {
 
         MemberCondition condition = new MemberCondition();
 
-        Pageable pageable = PageRequest.of(20, 1);
+        Pageable pageable = PageRequest.of(1, 20);
 
-        Page<MemberEntity> page = this.memberRepo.selectMember(condition, pageable);
+        Page<MemberDto> page = this.memberRepo.selectMember(condition, pageable);
 
-        Page<MemberEntity> map = PageableSupport.mappingTo(page, memberEntity -> memberEntity);
+        Page<MemberDto> map = PageableSupport.toPage(page, member -> member);
 
     }
 }

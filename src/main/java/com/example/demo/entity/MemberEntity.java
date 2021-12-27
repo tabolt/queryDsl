@@ -33,7 +33,7 @@ public class MemberEntity {
     private StatusCode status;
 
     @Column(nullable = false)
-    private int age;
+    private Integer age;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<AddressEntity> address = new ArrayList<>();

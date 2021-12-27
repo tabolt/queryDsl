@@ -31,13 +31,8 @@ public class MemberEntityTest {
         MemberCondition param = new MemberCondition();
         param.setGender(GenderCode.MALE);
 
-        Pageable pageable = PageRequest.of(1, 20, Sort.by(
-                Sort.Order.asc("name"),
-                Sort.Order.desc("age"),
-                Sort.Order.asc("gender"),
-                Sort.Order.desc("address_address"),
-                Sort.Order.asc("address_name"),
-                Sort.Order.desc("address_zipCode")
+        Pageable pageable = PageRequest.of(1, 3, Sort.by(
+                Sort.Order.asc("name")
         ));
 
         this.memberRepository.selectMember(param, pageable).forEach(System.out::println);
@@ -141,6 +136,13 @@ public class MemberEntityTest {
         list.add(MemberEntity.builder().name("테스트44").gender(GenderCode.FEMALE).status(StatusCode.ACTIVE).age(45).build());
         list.add(MemberEntity.builder().name("테스트45").gender(GenderCode.MALE).status(StatusCode.ACTIVE).age(46).build());
         list.add(MemberEntity.builder().name("테스트46").gender(GenderCode.MALE).status(StatusCode.DORMANT).age(47).build());
+
+        int index = 1;
+        for (MemberEntity member : list) {
+            member.addAddress(AddressEntity.builder().name("집" + ++index).zipCode("100" + index).address("주소" + index).build());
+            member.addAddress(AddressEntity.builder().name("집" + ++index).zipCode("100" + index).address("주소" + index).build());
+            member.addAddress(AddressEntity.builder().name("집" + ++index).zipCode("100" + index).address("주소" + index).build());
+        }
 
         this.memberRepository.saveAll(list);
     }

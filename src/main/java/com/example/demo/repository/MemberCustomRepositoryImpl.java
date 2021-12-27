@@ -1,8 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.MemberCondition;
-import com.example.demo.entity.MemberEntity;
-import com.example.demo.entity.QAddressEntity;
+import com.example.demo.dto.MemberDto;
+import com.example.demo.dto.QMemberDto;
 import com.example.demo.entity.QMemberEntity;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,7 +30,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
      * 회원 조회
      */
     @Override
-    public List<MemberEntity> selectMember(MemberCondition condition) {
+    public List<MemberDto> selectMember(MemberCondition condition) {
         return this.basicQuery(condition, null).fetch();
     }
 
@@ -38,14 +38,16 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
      * 회원 조회 - 페이징 처리
      */
     @Override
-    public Page<MemberEntity> selectMember(MemberCondition condition, Pageable pageable) {
+    public Page<MemberDto> selectMember(MemberCondition condition, Pageable pageable) {
         return new PageImpl<>(this.basicQuery(condition, pageable).fetch(), pageable, this.basicQueryCount(condition));
     }
 
+    /**
+     * 기본 회원 쿼리 카운트
+     */
     private long basicQueryCount(MemberCondition condition) {
 
         QMemberEntity qMember = QMemberEntity.memberEntity;
-        QAddressEntity qAddress = QAddressEntity.addressEntity;
 
         return jpaQuery
                 .select(
@@ -68,17 +70,23 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     /**
      * 기본 회원 쿼리
      */
-    private JPAQuery<MemberEntity> basicQuery(MemberCondition condition, @Nullable Pageable pageable) {
+    private JPAQuery<MemberDto> basicQuery(MemberCondition condition, @Nullable Pageable pageable) {
 
         QMemberEntity qMember = QMemberEntity.memberEntity;
-        QAddressEntity qAddress = QAddressEntity.addressEntity;
 
-        JPAQuery<MemberEntity> query = jpaQuery
+        JPAQuery<MemberDto> query = jpaQuery
                 .select(
+                        new QMemberDto(
+                                qMember.no,
+                                qMember.name,
+                                qMember.gender,
+                                qMember.status,
+                                qMember.age
+                        )
+                )
+                .from(
                         qMember
                 )
-                .from(qMember)
-                .leftJoin(qMember.address, qAddress).fetchJoin()
                 .where(
                         eqIf(qMember.no, condition.getNo()),
                         eqIf(qMember.name, condition.getName()),
@@ -91,10 +99,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         applyPageable(query, pageable).orderBy(
                 OrderBy.path("name", qMember.name),
                 OrderBy.path("age", qMember.age),
-                OrderBy.path("gender", qMember.gender),
-                OrderBy.path("address_name", qAddress.name),
-                OrderBy.path("address_address", qAddress.address),
-                OrderBy.path("address_zipCode", qAddress.zipCode)
+                OrderBy.path("gender", qMember.gender)
         );
 
         return query;

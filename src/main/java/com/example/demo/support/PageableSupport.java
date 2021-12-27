@@ -20,7 +20,7 @@ public class PageableSupport {
     /**
      * 페이지 변환
      */
-    public static <T, R> Page<R> mappingTo(Page<T> target, Function<T, R> mapper) {
+    public static <T, R> Page<R> toPage(Page<T> target, Function<T, R> mapper) {
         return new PageImpl<>(target.getContent().stream().map(mapper).collect(Collectors.toList()), target.getPageable(), target.getTotalElements());
     }
 
