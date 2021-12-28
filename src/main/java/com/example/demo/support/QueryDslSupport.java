@@ -6,6 +6,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.SimpleExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 
+import java.util.Collection;
+
 public class QueryDslSupport {
 
     public static <T> BooleanExpression eq(SimpleExpression<T> left, T right) {
@@ -73,6 +75,10 @@ public class QueryDslSupport {
     public static BooleanExpression containsIgnoreCaseIf(StringExpression left, String right) {
         if (right == null) return null;
         return left.containsIgnoreCase(right);
+    }
+
+    public static <T> BooleanExpression in(SimpleExpression<T> left, Collection<T> right) {
+        return left.in(right);
     }
 
 }

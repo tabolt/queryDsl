@@ -32,4 +32,14 @@ public class MemberDto {
         this.status = status;
         this.age = age;
     }
+
+    @QueryProjection
+    public MemberDto(Long no, String name, GenderCode gender, StatusCode status, Integer age, List<AddressDto> address) {
+        this.no = no;
+        this.name = name;
+        this.gender = gender;
+        this.status = status;
+        this.age = age;
+        this.address = address;
+    }
 }

@@ -34,13 +34,13 @@ public class PageableSupport {
             query.limit(pageable.getPageSize());
         }
 
-        return applyPageableOrderBy(query, pageable);
+        return applyOrderBy(query, pageable);
     }
 
     /**
      * Pageable OrderBy 처리 시작
      */
-    public static <T> PageableOrderBy<T> applyPageableOrderBy(JPAQuery<T> query, Pageable pageable) {
+    public static <T> PageableOrderBy<T> applyOrderBy(JPAQuery<T> query, Pageable pageable) {
         return new PageableOrderBy<>(query, pageable);
     }
 

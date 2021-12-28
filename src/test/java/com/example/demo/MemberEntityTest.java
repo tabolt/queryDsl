@@ -31,7 +31,7 @@ public class MemberEntityTest {
         MemberCondition param = new MemberCondition();
         param.setGender(GenderCode.MALE);
 
-        Pageable pageable = PageRequest.of(1, 3, Sort.by(
+        Pageable pageable = PageRequest.of(0, 3, Sort.by(
                 Sort.Order.asc("name")
         ));
 

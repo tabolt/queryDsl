@@ -2,10 +2,11 @@ package com.example.demo.dto;
 
 import com.example.demo.code.GenderCode;
 import com.example.demo.code.StatusCode;
-import com.querydsl.core.types.Predicate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +19,5 @@ public class MemberCondition {
     private StatusCode status;
     private GenderCode gender;
     private Integer age;
+    private List<Long> noList;
 }
